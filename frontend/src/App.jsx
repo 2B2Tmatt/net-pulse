@@ -1,17 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import NetworkForm from './components/NetworkForm';
+import NetworkDisplay from './components/NetworkDisplay';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [result, setResult] = useState(null);
+
+  async function handleRun(payload) {
+    const res = await fetch('http://localhost:8080/api/lookup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    setResult(data);
+  }
+
+  function handleReset() {
+    setResult(null);
+  }
 
   return (
-    <>
-      <div>Hi</div>
-      <div></div> 
-    </>
-  )
+    <div>
+      {result ? (
+        <NetworkDisplay data={result} onReset={handleReset} />
+      ) : (
+        <NetworkForm handleRun={handleRun} />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;

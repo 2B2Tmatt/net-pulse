@@ -4,8 +4,6 @@ import (
 	"time"
 )
 
-type check string
-
 type LookupRequest struct {
 	Query  string       `json:"query"`
 	Checks []CheckKind  `json:"checks,omitempty"`
@@ -61,7 +59,7 @@ const (
 )
 
 type DNSResult struct {
-	Attempted bool     `json:"skipped"`
+	Attempted bool     `json:"attempted"`
 	OK        bool     `json:"ok"`
 	MS        int      `json:"ms"`
 	A         []string `json:"a,omitempty"`
@@ -70,7 +68,7 @@ type DNSResult struct {
 }
 
 type TCPResult struct {
-	Attempted bool     `json:"skipped"`
+	Attempted bool     `json:"attempted"`
 	OK        bool     `json:"ok"`
 	MS        int      `json:"ms"`
 	Port      int      `json:"port"`
@@ -78,7 +76,7 @@ type TCPResult struct {
 }
 
 type HTTPResult struct {
-	Attempted bool     `json:"skipped"`
+	Attempted bool     `json:"attempted"`
 	OK        bool     `json:"ok"`
 	MS        int      `json:"ms"`
 	Status    int      `json:"status,omitempty"`
