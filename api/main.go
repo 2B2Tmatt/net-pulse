@@ -11,7 +11,7 @@ func main() {
 	router.HandleFunc("POST /api/lookup", handlers.Lookup)
 
 	log.Println("Server started on port: 8080")
-	http.ListenAndServe("127.0.0.1:8080", corsMiddleware(router))
+	http.ListenAndServe(":8080", corsMiddleware(router))
 }
 
 func corsMiddleware(next http.Handler) http.Handler {
