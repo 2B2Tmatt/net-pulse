@@ -4,22 +4,42 @@ function hasErr(x) {
   return !!x?.error;
 }
 
+function attempted(x) {
+  return !!x?.attempted;
+}
+
+function succeeded(x) {
+  return attempted(x) && x?.ok === true && !hasErr(x);
+}
+
+function failed(x) {
+  return attempted(x) && (x?.ok === false || hasErr(x));
+}
+
 function overallStatus(data, errorMsg) {
-  const anyError = hasErr(data?.dns) || hasErr(data?.tcp) || hasErr(data?.http);
-  const ok = !errorMsg && !anyError;
+  const anyAttempted =
+    attempted(data?.dns) || attempted(data?.tcp) || attempted(data?.http);
+
+  if (!anyAttempted) {
+    return { label: '—', cls: '' };
+  }
+
+  const anyFail = failed(data?.dns) || failed(data?.tcp) || failed(data?.http);
+  const ok = !errorMsg && !anyFail;
+
   return ok
     ? { label: 'OK', cls: 'status-ok' }
     : { label: 'FAIL', cls: 'status-fail' };
 }
 
 function panelStateClass(r) {
-  if (!r) return '';
-  return hasErr(r) ? 'panel-fail' : 'panel-ok';
+  if (!attempted(r)) return '';
+  return failed(r) ? 'panel-fail' : 'panel-ok';
 }
 
 function cardStateClass(r) {
-  if (!r) return '';
-  return hasErr(r) ? 'card-fail' : 'card-ok';
+  if (!attempted(r)) return '';
+  return failed(r) ? 'card-fail' : 'card-ok';
 }
 
 const NetworkDisplay = ({ data, errorMsg = '', onReset }) => {
@@ -54,8 +74,8 @@ const NetworkDisplay = ({ data, errorMsg = '', onReset }) => {
         <div className="panel-body">
           {errorMsg ? <div className="alert">{errorMsg}</div> : null}
           <div className="subtle">
-            Each card tints green when that check succeeded, red when it
-            returned an error. If a check was not run, it stays neutral.
+            Cards stay neutral until the backend marks that check as attempted.
+            Then they tint green for OK and red for FAIL.
           </div>
         </div>
       </div>

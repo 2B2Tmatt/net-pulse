@@ -112,7 +112,6 @@ func runDNS(ctx context.Context, query string) dto.DNSResult {
 	ips, err := net.DefaultResolver.LookupHost(ctx, query)
 	if err != nil {
 		log.Println(err)
-		dnsResult.MS = -1
 		dnsResult.Error = &dto.ErrInfo{
 			Type:    "Bad Request",
 			Message: "unable to look up dns",

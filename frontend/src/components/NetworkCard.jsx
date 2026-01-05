@@ -1,18 +1,24 @@
 const NetworkCard = ({ title, r }) => {
-  if (!r) return <div className="subtle">No data</div>;
+  // Backend returns a struct even when not run yet; use attempted to decide neutral vs data.
+  if (!r || r.attempted !== true) {
+    return <div className="subtle">Not run</div>;
+  }
 
   function renderValue(v) {
-    if (v == null) return String(v);
+    if (v == null) return { text: String(v), isError: false };
 
-    if (typeof v === 'object' && 'type' in v && 'message' in v) {
-      return {
-        text: `${String(v.type)} - ${String(v.message)}`,
-        isError: true,
-      };
+    // backend ErrInfo: { type, message }
+    if (typeof v === 'object' && v && 'type' in v && 'message' in v) {
+      const msg = v.message ? ` - ${String(v.message)}` : '';
+      return { text: `${String(v.type)}${msg}`, isError: true };
     }
 
     if (typeof v === 'object') {
-      return { text: JSON.stringify(v), isError: false };
+      try {
+        return { text: JSON.stringify(v), isError: false };
+      } catch {
+        return { text: String(v), isError: false };
+      }
     }
 
     return { text: String(v), isError: false };
