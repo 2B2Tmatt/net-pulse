@@ -1,68 +1,422 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --bg: #0a0c10;
+  --panel: #0f141b;
+  --panel-2: #0c1117;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-2: rgba(255, 255, 255, 0.06);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --text: rgba(250, 252, 255, 0.92);
+  --muted: rgba(250, 252, 255, 0.62);
+  --muted-2: rgba(250, 252, 255, 0.46);
+
+  --accent: #60a5fa;
+
+  --ok: #22c55e;
+  --ok-bg: rgba(34, 197, 94, 0.1);
+  --bad: #ef4444;
+  --bad-bg: rgba(239, 68, 68, 0.1);
+
+  --radius: 0px;
+  --focus: 0 0 0 3px rgba(96, 165, 250, 0.2);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+* {
+  box-sizing: border-box;
 }
-a:hover {
-  color: #535bf2;
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  color: var(--text);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    'Apple Color Emoji',
+    'Segoe UI Emoji';
+  background: var(--bg);
+}
+
+.app-shell {
   min-height: 100vh;
+  padding: 34px 22px 44px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding-top: 26px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.page-title {
+  margin: 0 0 18px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.subtle {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.net-label {
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 50;
+  color: rgba(250, 252, 255, 0.62);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.net-label-state {
+  margin-left: 10px;
+  color: rgba(96, 165, 250, 0.75);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.panel-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--panel-2);
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--text);
+}
+
+.panel-body {
+  padding: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.small-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.15px;
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+}
+
+.input:focus,
+.select:focus {
+  box-shadow: var(--focus);
+  border-color: rgba(96, 165, 250, 0.4);
+}
+
+.row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  user-select: none;
+}
+
+.chip input[type='checkbox'] {
+  accent-color: var(--accent);
+}
+
+.section {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.section-head {
+  padding: 16px 18px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.section-head .hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.section-body {
+  padding: 18px;
+}
+
+.section-disabled {
+  opacity: 0.55;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  font-size: 14px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.btn:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: rgba(96, 165, 250, 0.22);
+  border-color: rgba(96, 165, 250, 0.38);
+}
+
+.alert {
+  border-radius: var(--radius);
+  padding: 14px 14px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: var(--bad-bg);
+  color: rgba(255, 235, 235, 0.96);
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+.dashboard {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'summary summary'
+      'dns tcp'
+      'http http';
   }
-  a:hover {
-    color: #747bff;
+  .dash-summary {
+    grid-area: summary;
   }
-  button {
-    background-color: #f9f9f9;
+  .dash-dns {
+    grid-area: dns;
   }
+  .dash-tcp {
+    grid-area: tcp;
+  }
+  .dash-http {
+    grid-area: http;
+  }
+}
+
+.summary-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  font-size: 13px;
+}
+
+.status-ok {
+  color: rgba(225, 255, 235, 0.95);
+  border-color: rgba(34, 197, 94, 0.55);
+  background: var(--ok-bg);
+}
+
+.status-fail {
+  color: rgba(255, 230, 230, 0.96);
+  border-color: rgba(239, 68, 68, 0.55);
+  background: var(--bad-bg);
+}
+
+.kv {
+  display: grid;
+  gap: 12px;
+}
+
+.kv-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.k {
+  color: var(--muted-2);
+  font-size: 13px;
+  letter-spacing: 0.15px;
+}
+
+.v {
+  color: var(--text);
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.v-error {
+  color: rgba(255, 220, 220, 0.95);
+}
+
+.panel-ok {
+  border-color: rgba(34, 197, 94, 0.28);
+}
+
+.panel-ok .panel-header {
+  border-bottom-color: rgba(34, 197, 94, 0.18);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.panel-fail {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.panel-fail .panel-header {
+  border-bottom-color: rgba(239, 68, 68, 0.18);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.card-ok .kv-row {
+  border-left: 3px solid rgba(34, 197, 94, 0.55);
+}
+
+.card-fail .kv-row {
+  border-left: 3px solid rgba(239, 68, 68, 0.55);
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) var(--bg);
 }
